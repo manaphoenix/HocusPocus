@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>HocusPocusIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,7 @@
     <None Remove="data\image\DeleteIcon.png" />
     <None Remove="data\image\DiceIcon.png" />
     <None Remove="data\image\ExitIcon.png" />
+    <None Remove="data\image\GearIcon.png" />
     <None Remove="data\image\MaximizeIcon.png" />
     <None Remove="data\image\MinimizeIcon.png" />
     <None Remove="data\image\RevertMaximizeIcon.png" />
@@ -22,6 +24,7 @@
     <Resource Include="data\image\DeleteIcon.png" />
     <Resource Include="data\image\DiceIcon.png" />
     <Resource Include="data\image\ExitIcon.png" />
+    <Resource Include="data\image\GearIcon.png" />
     <Resource Include="data\image\MaximizeIcon.png" />
     <Resource Include="data\image\MinimizeIcon.png" />
     <Resource Include="data\image\RevertMaximizeIcon.png" />
