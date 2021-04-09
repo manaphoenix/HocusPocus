@@ -192,7 +192,11 @@ namespace HocusPocus
 		private void MyTreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
 			if (MyTreeView.SelectedItem != null) // stupid check to get it to correctly unselect V.V
+			{
 				OptionBox.Visibility = Visibility.Visible;
+				RandomizerSettings.Visibility = Visibility.Visible;
+				AppSettings.Visibility = Visibility.Collapsed;
+			}
 
 			var item = (RandomizerItem)e.NewValue;
 			BindingOperations.ClearBinding(TextName, TextBox.TextProperty);
@@ -228,6 +232,15 @@ namespace HocusPocus
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 			};
 			BindingOperations.SetBinding(RandomChecked, ToggleButton.IsCheckedProperty, myBinding);
+
+			myBinding = new Binding()
+			{
+				Source = item,
+				Path = new PropertyPath("Function"),
+				Mode = BindingMode.TwoWay,
+				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+			};
+			BindingOperations.SetBinding(FunctionChecked, ToggleButton.IsCheckedProperty, myBinding);
 		}
 
 		private void DeleteButton_Clicked(object sender, RoutedEventArgs e)
@@ -250,11 +263,26 @@ namespace HocusPocus
 			}
 		}
 
+		private void RandomChecked_Checked(object sender, RoutedEventArgs e)
+		{
+			if ((bool)RandomChecked.IsChecked)
+				FunctionChecked.IsChecked = false;
+		}
+		private void FunctionChecked_Checked(object sender, RoutedEventArgs e)
+		{
+			if ((bool)FunctionChecked.IsChecked)
+				RandomChecked.IsChecked = false;
+		}
+
 		//Settings button
 		private void Settings_Clicked(object sender, RoutedEventArgs e)
 		{
-
+			OptionBox.Visibility = Visibility.Visible;
+			RandomizerSettings.Visibility = Visibility.Collapsed;
+			AppSettings.Visibility = Visibility.Visible;
+			Output.Text = "TEST\ntest\n12345";
 		}
+
 
 		// Non-Important events
 		private void MyTreeView_MouseDown(object sender, MouseButtonEventArgs e)
@@ -282,5 +310,7 @@ namespace HocusPocus
 				mainPanelBorder.Margin = new Thickness();
 			}
 		}
+
+		
 	}
 }

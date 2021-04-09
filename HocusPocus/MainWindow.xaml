@@ -56,24 +56,30 @@
             <TreeView MouseDown="MyTreeView_MouseDown" Background="Transparent" SelectedItemChanged="MyTreeView_SelectedItemChanged" ItemsSource="{Binding Path=MyItems, Mode=OneWay}" x:Name="MyTreeView" Grid.Column="0" Grid.Row="1"/>
             <Border Grid.Column="1" Grid.Row="1" Background="Transparent" BorderBrush="White" BorderThickness="1">
                 <DockPanel Visibility ="Hidden" x:Name="OptionBox" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+                    <StackPanel Name="RandomizerSettings" Visibility="Visible" DockPanel.Dock="Top" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Label Foreground="White" Content="Name:" HorizontalAlignment="Left"/>
-                            <TextBox x:Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBox Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Horizontal" Margin="0 0 25 0">
                                 <Label Foreground="White" Content="Randomizer:"/>
-                                <CheckBox Name="RandomChecked" VerticalAlignment="Center"/>
+                                <CheckBox Checked="RandomChecked_Checked" Name="RandomChecked" VerticalAlignment="Center"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Foreground="White" Content="Function:"/>
-                                <CheckBox Name="FunctionChecked" VerticalAlignment="Center"/>
+                                <CheckBox Checked="FunctionChecked_Checked" Name="FunctionChecked" VerticalAlignment="Center"/>
                             </StackPanel>
                         </StackPanel>
-                        <StackPanel Name="ValuePanel" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
                             <Label Foreground="White" Content="Value:"/>
                             <TextBox Name="ValueBox" Width="300px"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Name="AppSettings" Visibility="Collapsed" DockPanel.Dock="Top" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Foreground="White" Content="Font Size:" HorizontalAlignment="Left"/>
+                            <TextBox Width="50px" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default}, Path=FontSize, Mode=TwoWay}"/>
                         </StackPanel>
                     </StackPanel>
                     <TextBox Name="Output" Foreground="White" Background="Transparent" IsReadOnly="True" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=FontSize}"/>

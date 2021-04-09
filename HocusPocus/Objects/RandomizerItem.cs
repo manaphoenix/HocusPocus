@@ -17,6 +17,7 @@ namespace HocusPocus.Objects
 		private string _Name;
 		private string _OutputValue;
 		private bool _Nested;
+		private bool _Function;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -57,6 +58,20 @@ namespace HocusPocus.Objects
 				if (_Nested != value)
 				{
 					_Nested = value;
+					PropertyChange();
+				}
+			}
+		}
+
+		public bool Function
+		{
+			get { return _Function; }
+
+			set
+			{
+				if (_Function != value)
+				{
+					_Function = value;
 					PropertyChange();
 				}
 			}
