@@ -185,7 +185,12 @@ namespace HocusPocus
 			} else
 			{
 				var item = MyTreeView.SelectedItem as RandomizerTreeItem;
-				item.Items.Add(new RandomizerTreeItem());
+				if (item.Item.UUID == Guid.Empty)
+					item.Item.UUID = Guid.NewGuid();
+
+				var newItem = new RandomizerTreeItem();
+				newItem.Item.UUID = item.Item.UUID;
+				item.Items.Add(newItem);
 			}
 		}
 

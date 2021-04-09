@@ -13,7 +13,7 @@ namespace HocusPocus.Objects
 	public class Controller
 	{
 		private ObservableCollection<RandomizerTreeItem> _Items;
-		private StringBuilder builder;
+		private readonly StringBuilder builder;
 		private readonly Random RNG = new Random();
 
 		public ObservableCollection<RandomizerTreeItem> MyItems
@@ -73,23 +73,41 @@ namespace HocusPocus.Objects
 
 		private void NewItem(RandomizerItem internalitem)
 		{
-			var item = new RandomizerTreeItem();
-			item.Item = internalitem;
-			item.Header = internalitem.ItemName;
-			MyItems.Add(item);
+			var item = new RandomizerTreeItem
+			{
+				Item = internalitem,
+				Header = internalitem.ItemName
+			};
+
+			if (item.Item.UUID == Guid.Empty)
+			{
+				MyItems.Add(item);
+			} else
+			{
+				if (MyItems.Any(x => x.Item.UUID == item.Item.UUID))
+				{
+					var testItem = MyItems.First(x => x.Item.UUID == item.Item.UUID);
+					testItem.Items.Add(item);
+				}
+			}
+		}
+
+		public void AddItems(List<RandomizerTreeItem> BaseItems, List<RandomizerItem> SerializableItems)
+		{
+			foreach (var item in BaseItems)
+			{
+				SerializableItems.Add(item.Item);
+				if (item.Items.Count > 0)
+					AddItems(item.Items.OfType<RandomizerTreeItem>().ToList(), SerializableItems);
+			}
 		}
 
 		public void Save()
 		{
 			var items = new List<RandomizerItem>();
-
-			foreach (var item in _Items)
-			{
-				items.Add(item.Item);
-			}
-
+			AddItems(_Items.ToList(), items);
+			
 			var xml = new XmlSerializer(typeof(List<RandomizerItem>));
-			//var bf = new BinaryFormatter();
 			var stream = File.Open("Randomizer.dat", FileMode.Create, FileAccess.Write);
 
 			using (TextWriter tw = new StreamWriter(stream))
@@ -97,7 +115,6 @@ namespace HocusPocus.Objects
 				xml.Serialize(tw, items);
 			}
 
-			//bf.Serialize(stream, items);
 			stream.Close();
 			
 		}

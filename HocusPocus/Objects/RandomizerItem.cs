@@ -14,10 +14,12 @@ namespace HocusPocus.Objects
 	[Serializable]
 	public class RandomizerItem : INotifyPropertyChanged, ISerializable
 	{
+		
 		private string _Name;
 		private string _OutputValue;
 		private bool _Nested;
 		private bool _Function;
+		private Guid _ID;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -77,6 +79,20 @@ namespace HocusPocus.Objects
 			}
 		}
 
+		public Guid UUID
+		{
+			get { return _ID; }
+
+			set
+			{
+				if (_ID != value)
+				{
+					_ID = value;
+					PropertyChange();
+				}
+			}
+		}
+
 		public RandomizerItem()
 		{
 			ItemName = "New Randomizer";
@@ -89,6 +105,7 @@ namespace HocusPocus.Objects
 			_OutputValue = (string)info.GetValue("OutputValue", typeof(string));
 			_Nested = (bool)info.GetValue("Nested", typeof(bool));
 			_Function = (bool)info.GetValue("Function", typeof(bool));
+			_ID = (Guid)info.GetValue("ID", typeof(Guid));
 		}
 
 		public void PropertyChange([CallerMemberName] string propertyName = "")
@@ -102,6 +119,7 @@ namespace HocusPocus.Objects
 			info.AddValue("OutputValue", _OutputValue);
 			info.AddValue("Nested", _Nested);
 			info.AddValue("Function", _Function);
+			info.AddValue("ID", _ID);
 		}
 	}
 }

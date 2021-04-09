@@ -17,9 +17,11 @@ namespace HocusPocus.Objects
 
 		public RandomizerTreeItem()
 		{
-			Item = new RandomizerItem();
-			Item.ItemName = "New Randomizer";
-			Item.Nested = false;
+			Item = new RandomizerItem
+			{
+				ItemName = "New Randomizer",
+				Nested = false
+			};
 			Header = Item.ItemName;
 			Foreground = Brushes.White;
 		}
