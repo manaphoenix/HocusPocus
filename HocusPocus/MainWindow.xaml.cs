@@ -250,6 +250,12 @@ namespace HocusPocus
 			}
 		}
 
+		//Settings button
+		private void Settings_Clicked(object sender, RoutedEventArgs e)
+		{
+
+		}
+
 		// Non-Important events
 		private void MyTreeView_MouseDown(object sender, MouseButtonEventArgs e)
 		{
@@ -276,6 +282,5 @@ namespace HocusPocus
 				mainPanelBorder.Margin = new Thickness();
 			}
 		}
-
 	}
 }

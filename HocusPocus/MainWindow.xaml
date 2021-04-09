@@ -46,8 +46,11 @@
                 <Button Click="DeleteButton_Clicked" Margin="40, 0, 40, 0">
                     <Image Source="data/image/DeleteIcon.png"/>
                 </Button>
-                <Button Click="RollButton_Clicked">
+                <Button Click="RollButton_Clicked" Margin="0, 0, 40, 0">
                     <Image Source="data/image/DiceIcon.png"/>
+                </Button>
+                <Button Click="Settings_Clicked">
+                    <Image Source="data/image/GearIcon.png"/>
                 </Button>
             </ToolBar>
             <TreeView MouseDown="MyTreeView_MouseDown" Background="Transparent" SelectedItemChanged="MyTreeView_SelectedItemChanged" ItemsSource="{Binding Path=MyItems, Mode=OneWay}" x:Name="MyTreeView" Grid.Column="0" Grid.Row="1"/>
