@@ -1,0 +1,75 @@
+﻿<Window x:Class="HocusPocus.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Hocus Pocus" Height="450" Width="800" Background="Transparent" AllowsTransparency="True" WindowStyle="None">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32"/>
+    </WindowChrome.WindowChrome>
+
+    <Grid Background="#444444">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#333333">
+            <Label Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Content="Hocus Pocus"/>
+            <StackPanel Background="Transparent" Height="32" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Button Background="Transparent" BorderBrush="#1AFFFFFF" Name="MinimizeButton" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White">
+                    <Image Source="data/image/MinimizeIcon.png"/>                                                 
+                </Button>
+                <Button Background="Transparent" BorderBrush="#1AFFFFFF" Name="MaximizeButton" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White">
+                    <Image Name="MaxImageContent" Source="data/image/MaximizeIcon.png"/>                          
+                </Button>
+                <Button Background="Transparent" BorderBrush="#1AFFFFFF" Name="ExitButton"     Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White">
+                    <Image Source="data/image/ExitIcon.png"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40px"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ToolBar Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent" Grid.Row="0" ToolBar.OverflowMode="Never" ToolBarTray.IsLocked="True" Loaded="ToolBar_Loaded">
+                <Button Click="AddButton_Clicked">
+                    <Image Source="data/image/AddIcon.png"/>
+                </Button>
+                <Button Click="DeleteButton_Clicked" Margin="40, 0, 40, 0">
+                    <Image Source="data/image/DeleteIcon.png"/>
+                </Button>
+                <Button Click="RollButton_Clicked">
+                    <Image Source="data/image/DiceIcon.png"/>
+                </Button>
+            </ToolBar>
+            <TreeView MouseDown="MyTreeView_MouseDown" Background="Transparent" SelectedItemChanged="MyTreeView_SelectedItemChanged" ItemsSource="{Binding Path=MyItems, Mode=OneWay}" x:Name="MyTreeView" Grid.Column="0" Grid.Row="1"/>
+            <Border Grid.Column="1" Grid.Row="1" Background="Transparent" BorderBrush="White" BorderThickness="1">
+                <DockPanel Visibility ="Hidden" x:Name="OptionBox" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Foreground="White" Content="Name:" HorizontalAlignment="Left"/>
+                            <TextBox x:Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Name="RandomCheck" Orientation="Horizontal">
+                            <Label Foreground="White" Content="Randomizer:"/>
+                            <CheckBox Name="RandomChecked" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel Name="ValuePanel" Orientation="Horizontal">
+                            <Label Foreground="White" Content="Value:"/>
+                            <TextBox Name="ValueBox" Width="300px"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <TextBox Name="Output" Foreground="White" Background="Transparent" IsReadOnly="True" FontSize="25"/>
+                </DockPanel>
+            </Border>
+            
+        </Grid>
+    </Grid>
+</Window>
