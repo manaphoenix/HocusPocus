@@ -12,7 +12,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 namespace HocusPocus.Objects
 {
 	[Serializable]
-	public class RandomizerItem : TreeViewItem, INotifyPropertyChanged, ISerializable
+	public class RandomizerItem : INotifyPropertyChanged, ISerializable
 	{
 		private string _Name;
 		private string _OutputValue;
@@ -81,8 +81,6 @@ namespace HocusPocus.Objects
 		{
 			ItemName = "New Randomizer";
 			Nested = false;
-			Header = ItemName;
-			Foreground = Brushes.White;
 		}
 
 		public RandomizerItem(SerializationInfo info, StreamingContext context)
@@ -90,6 +88,7 @@ namespace HocusPocus.Objects
 			_Name = (string)info.GetValue("ItemName", typeof(string));
 			_OutputValue = (string)info.GetValue("OutputValue", typeof(string));
 			_Nested = (bool)info.GetValue("Nested", typeof(bool));
+			_Function = (bool)info.GetValue("Function", typeof(bool));
 		}
 
 		public void PropertyChange([CallerMemberName] string propertyName = "")
@@ -102,6 +101,7 @@ namespace HocusPocus.Objects
 			info.AddValue("ItemName", _Name);
 			info.AddValue("OutputValue", _OutputValue);
 			info.AddValue("Nested", _Nested);
+			info.AddValue("Function", _Function);
 		}
 	}
 }

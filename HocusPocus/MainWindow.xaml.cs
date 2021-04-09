@@ -184,8 +184,8 @@ namespace HocusPocus
 				Base.NewItem();
 			} else
 			{
-				var item = MyTreeView.SelectedItem as RandomizerItem;
-				item.Items.Add(new RandomizerItem());
+				var item = MyTreeView.SelectedItem as RandomizerTreeItem;
+				item.Items.Add(new RandomizerTreeItem());
 			}
 		}
 
@@ -198,7 +198,7 @@ namespace HocusPocus
 				AppSettings.Visibility = Visibility.Collapsed;
 			}
 
-			var item = (RandomizerItem)e.NewValue;
+			var item = (RandomizerTreeItem)e.NewValue;
 			BindingOperations.ClearBinding(TextName, TextBox.TextProperty);
 			BindingOperations.ClearBinding(ValueBox, TextBox.TextProperty);
 			BindingOperations.ClearBinding(RandomChecked, ToggleButton.IsCheckedProperty);
@@ -207,7 +207,7 @@ namespace HocusPocus
 
 			var myBinding = new Binding()
 			{
-				Source = item,
+				Source = item.Item,
 				Path = new PropertyPath("ItemName"),
 				Mode = BindingMode.TwoWay,
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -217,7 +217,7 @@ namespace HocusPocus
 
 			myBinding = new Binding()
 			{
-				Source = item,
+				Source = item.Item,
 				Path = new PropertyPath("OutputValue"),
 				Mode = BindingMode.TwoWay,
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -226,7 +226,7 @@ namespace HocusPocus
 
 			myBinding = new Binding()
 			{
-				Source = item,
+				Source = item.Item,
 				Path = new PropertyPath("Nested"),
 				Mode = BindingMode.TwoWay,
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -235,7 +235,7 @@ namespace HocusPocus
 
 			myBinding = new Binding()
 			{
-				Source = item,
+				Source = item.Item,
 				Path = new PropertyPath("Function"),
 				Mode = BindingMode.TwoWay,
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -245,9 +245,9 @@ namespace HocusPocus
 
 		private void DeleteButton_Clicked(object sender, RoutedEventArgs e)
 		{
-			if (MyTreeView.SelectedItem is RandomizerItem item)
+			if (MyTreeView.SelectedItem is RandomizerTreeItem item)
 			{
-				if (item.Parent is RandomizerItem parent)
+				if (item.Parent is RandomizerTreeItem parent)
 					parent.Items.Remove(item);
 				else
 					Base.MyItems.Remove(item);
@@ -256,7 +256,7 @@ namespace HocusPocus
 
 		private void RollButton_Clicked(object sender, RoutedEventArgs e)
 		{
-			if (MyTreeView.SelectedItem is RandomizerItem item)
+			if (MyTreeView.SelectedItem is RandomizerTreeItem item)
 			{
 				var result = Base.DoRoll(item);
 				Output.Text = result.ToString();
@@ -291,7 +291,7 @@ namespace HocusPocus
 
 			if (OptionBox.Visibility == Visibility.Hidden && MyTreeView.SelectedItem != null)
 			{
-				RandomizerItem item = (RandomizerItem)MyTreeView.SelectedItem;
+				RandomizerTreeItem item = (RandomizerTreeItem)MyTreeView.SelectedItem;
 				item.IsSelected = false;
 			}
 		}

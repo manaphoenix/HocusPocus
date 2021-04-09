@@ -12,11 +12,11 @@ namespace HocusPocus.Objects
 {
 	public class Controller
 	{
-		private ObservableCollection<RandomizerItem> _Items;
+		private ObservableCollection<RandomizerTreeItem> _Items;
 		private StringBuilder builder;
-		private readonly Random RNG = new Random(Guid.NewGuid().GetHashCode());
+		private readonly Random RNG = new Random();
 
-		public ObservableCollection<RandomizerItem> MyItems
+		public ObservableCollection<RandomizerTreeItem> MyItems
 		{
 			get { return _Items; }
 
@@ -32,32 +32,32 @@ namespace HocusPocus.Objects
 		public Controller()
 		{
 			builder = new StringBuilder();
-			MyItems = new ObservableCollection<RandomizerItem>();
+			MyItems = new ObservableCollection<RandomizerTreeItem>();
 		}
 
-		public void NestedRoll(RandomizerItem item)
+		public void NestedRoll(RandomizerTreeItem item)
 		{
 			var roll = RNG.Next(0, item.Items.Count);
-			RandomizerItem result = (RandomizerItem)item.Items[roll];
-			builder.Append(result.OutputValue + "\n");
+			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
+			builder.Append(result.Item.OutputValue + "\n");
 
-			if (result.Nested)
+			if (result.Item.Nested)
 			{
 				NestedRoll(result);
 			}
 		}
 
-		public StringBuilder DoRoll(RandomizerItem item)
+		public StringBuilder DoRoll(RandomizerTreeItem item)
 		{
 			builder.Clear();
 
 			if (item.Items.Count < 1) return builder;
 
 			var roll = RNG.Next(0, item.Items.Count);
-			RandomizerItem result = (RandomizerItem)item.Items[roll];
-			builder.Append(result.OutputValue + "\n");
+			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
+			builder.Append(result.Item.OutputValue + "\n");
 
-			if (result.Nested)
+			if (result.Item.Nested)
 			{
 				NestedRoll(result);
 			}
@@ -67,42 +67,61 @@ namespace HocusPocus.Objects
 
 		public void NewItem()
 		{
-			var item = new RandomizerItem();
+			var item = new RandomizerTreeItem();
 			MyItems.Add(item);
 		}
 
-		
+		private void NewItem(RandomizerItem internalitem)
+		{
+			var item = new RandomizerTreeItem();
+			item.Item = internalitem;
+			item.Header = internalitem.ItemName;
+			MyItems.Add(item);
+		}
+
 		public void Save()
 		{
-			/*
-			var items = _Items.ToArray();
+			var items = new List<RandomizerItem>();
 
-			var bf = new BinaryFormatter();
+			foreach (var item in _Items)
+			{
+				items.Add(item.Item);
+			}
+
+			var xml = new XmlSerializer(typeof(List<RandomizerItem>));
+			//var bf = new BinaryFormatter();
 			var stream = File.Open("Randomizer.dat", FileMode.Create, FileAccess.Write);
 
-			bf.Serialize(stream, items);
+			using (TextWriter tw = new StreamWriter(stream))
+			{
+				xml.Serialize(tw, items);
+			}
+
+			//bf.Serialize(stream, items);
 			stream.Close();
-			*/
+			
 		}
 
 		public void Load()
 		{
-			/*
 			if (File.Exists("Randomizer.dat"))
 			{
-				var bf = new BinaryFormatter();
+				var items = new List<RandomizerItem>();
+				var xml = new XmlSerializer(typeof(List<RandomizerItem>));
 				var stream = File.Open("Randomizer.dat", FileMode.Open, FileAccess.Read);
 
-				var items = (RandomizerItem[])bf.Deserialize(stream);
+				using (TextReader tr = new StreamReader(stream))
+				{
+					items = (List<RandomizerItem>)xml.Deserialize(tr);
+				}
+
 				stream.Close();
 
 				foreach (var item in items)
 				{
-					item.Header = item.ItemName;
-					_Items.Add(item);
+					NewItem(item);
 				}
 			}
-			*/
 		}
 		
 	}
