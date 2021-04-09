@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:properties="clr-namespace:HocusPocus.Properties"
         mc:Ignorable="d"
         Title="Hocus Pocus" Height="450" Width="800" Background="Transparent" AllowsTransparency="True" WindowStyle="None">
     <WindowChrome.WindowChrome>
@@ -57,16 +58,22 @@
                             <Label Foreground="White" Content="Name:" HorizontalAlignment="Left"/>
                             <TextBox x:Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <StackPanel Name="RandomCheck" Orientation="Horizontal">
-                            <Label Foreground="White" Content="Randomizer:"/>
-                            <CheckBox Name="RandomChecked" VerticalAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="0 0 25 0">
+                                <Label Foreground="White" Content="Randomizer:"/>
+                                <CheckBox Name="RandomChecked" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="White" Content="Function:"/>
+                                <CheckBox Name="FunctionChecked" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </StackPanel>
                         <StackPanel Name="ValuePanel" Orientation="Horizontal">
                             <Label Foreground="White" Content="Value:"/>
                             <TextBox Name="ValueBox" Width="300px"/>
                         </StackPanel>
                     </StackPanel>
-                    <TextBox Name="Output" Foreground="White" Background="Transparent" IsReadOnly="True" FontSize="25"/>
+                    <TextBox Name="Output" Foreground="White" Background="Transparent" IsReadOnly="True" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=FontSize}"/>
                 </DockPanel>
             </Border>
             
