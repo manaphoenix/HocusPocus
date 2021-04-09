@@ -7,6 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using System.IO;
 using System.Linq;
+using System.Diagnostics;
 
 namespace HocusPocus.Objects
 {
@@ -79,7 +80,7 @@ namespace HocusPocus.Objects
 				Header = internalitem.ItemName
 			};
 
-			if (item.Item.UUID == Guid.Empty)
+			if (item.Item.UUID == Guid.Empty || !MyItems.Any(x => x.Item.UUID == item.Item.UUID))
 			{
 				MyItems.Add(item);
 			} else
@@ -88,6 +89,9 @@ namespace HocusPocus.Objects
 				{
 					var testItem = MyItems.First(x => x.Item.UUID == item.Item.UUID);
 					testItem.Items.Add(item);
+				} else
+				{
+					//Crawl TODO
 				}
 			}
 		}
