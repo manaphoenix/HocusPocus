@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows.Controls;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
 using System.IO;
 using System.Linq;
-using System.Diagnostics;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace HocusPocus.Objects
 {
@@ -67,7 +64,8 @@ namespace HocusPocus.Objects
 			{
 				var func = MyItems.First(x => x.Item.ItemName == result.Item.OutputValue);
 				NestedRoll(func);
-			} else
+			}
+			else
 			{
 				if (!result.Item.Nested)
 					builder.Append(result.Item.OutputValue + "\n");
@@ -93,7 +91,8 @@ namespace HocusPocus.Objects
 			{
 				var func = MyItems.First(x => x.Item.ItemName == result.Item.OutputValue);
 				NestedRoll(func);
-			} else
+			}
+			else
 			{
 				if (!result.Item.Nested)
 					builder.Append(result.Item.OutputValue + "\n");
@@ -113,11 +112,12 @@ namespace HocusPocus.Objects
 		public void Save()
 		{
 			var items = new List<RandomizerItem>();
-			_ItemAccess.ForEach(x => {
+			_ItemAccess.ForEach(x =>
+			{
 				if (Items.Any(y => y.Item.ChildID == x.Item.ParentID) || x.Item.ParentID == Guid.Empty)
 					items.Add(x.Item);
 			});
-			
+
 			var xml = new XmlSerializer(typeof(List<RandomizerItem>));
 			var stream = File.Open("Randomizer.dat", FileMode.Create, FileAccess.Write);
 
@@ -176,7 +176,5 @@ namespace HocusPocus.Objects
 				}
 			}
 		}
-		
-		
 	}
 }

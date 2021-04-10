@@ -8,7 +8,6 @@ namespace HocusPocus.Objects
 	[Serializable]
 	public class RandomizerItem : INotifyPropertyChanged, ISerializable
 	{
-		
 		private string _Name;
 		private string _OutputValue;
 		private bool _Nested;
@@ -32,8 +31,8 @@ namespace HocusPocus.Objects
 			}
 		}
 
-		public string OutputValue 
-		{ 
+		public string OutputValue
+		{
 			get { return _OutputValue ?? _Name; }
 
 			set

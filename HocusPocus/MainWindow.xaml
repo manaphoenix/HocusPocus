@@ -7,86 +7,85 @@
         mc:Ignorable="d"
         Title="Hocus Pocus" Height="450" Width="800" Background="Transparent" AllowsTransparency="True" WindowStyle="None">
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="32"/>
+        <WindowChrome CaptionHeight="32" />
     </WindowChrome.WindowChrome>
 
     <Grid Background="#444444">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#333333">
-            <Image HorizontalAlignment="Left" Height="30" Source="HocusPocusIcon.ico" Margin="80 0 0 0"/>
-            <Label Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Content="Hocus Pocus"/>
+            <Image HorizontalAlignment="Left" Height="30" Source="HocusPocusIcon.ico" Margin="80 0 0 0" />
+            <Label Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Content="Hocus Pocus" />
             <StackPanel Background="Transparent" Height="32" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                 <Button Background="Transparent" BorderBrush="#1AFFFFFF" Name="MinimizeButton" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White">
-                    <Image Source="data/image/MinimizeIcon.png"/>                                                 
+                    <Image Source="data/image/MinimizeIcon.png" />
                 </Button>
                 <Button Background="Transparent" BorderBrush="#1AFFFFFF" Name="MaximizeButton" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White">
-                    <Image Name="MaxImageContent" Source="data/image/MaximizeIcon.png"/>                          
+                    <Image Name="MaxImageContent" Source="data/image/MaximizeIcon.png" />
                 </Button>
                 <Button Background="Transparent" BorderBrush="#1AFFFFFF" Name="ExitButton"     Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White">
-                    <Image Source="data/image/ExitIcon.png"/>
+                    <Image Source="data/image/ExitIcon.png" />
                 </Button>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="40px"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="40px" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <ToolBar Grid.ColumnSpan="2" Grid.Column="0" Background="Transparent" Grid.Row="0" ToolBar.OverflowMode="Never" ToolBarTray.IsLocked="True" Loaded="ToolBar_Loaded">
                 <Button Click="AddButton_Clicked">
-                    <Image Source="data/image/AddIcon.png"/>
+                    <Image Source="data/image/AddIcon.png" />
                 </Button>
                 <Button Click="DeleteButton_Clicked" Margin="40, 0, 40, 0">
-                    <Image Source="data/image/DeleteIcon.png"/>
+                    <Image Source="data/image/DeleteIcon.png" />
                 </Button>
                 <Button Click="RollButton_Clicked" Margin="0, 0, 40, 0">
-                    <Image Source="data/image/DiceIcon.png"/>
+                    <Image Source="data/image/DiceIcon.png" />
                 </Button>
                 <Button Click="Settings_Clicked">
-                    <Image Source="data/image/GearIcon.png"/>
+                    <Image Source="data/image/GearIcon.png" />
                 </Button>
             </ToolBar>
-            <TreeView MouseDown="MyTreeView_MouseDown" Background="Transparent" SelectedItemChanged="MyTreeView_SelectedItemChanged" ItemsSource="{Binding Path=MyItems, Mode=OneWay}" x:Name="MyTreeView" Grid.Column="0" Grid.Row="1"/>
+            <TreeView MouseDown="MyTreeView_MouseDown" Background="Transparent" SelectedItemChanged="MyTreeView_SelectedItemChanged" ItemsSource="{Binding Path=MyItems, Mode=OneWay}" x:Name="MyTreeView" Grid.Column="0" Grid.Row="1" />
             <Border Grid.Column="1" Grid.Row="1" Background="Transparent" BorderBrush="White" BorderThickness="1">
                 <DockPanel Visibility ="Hidden" x:Name="OptionBox" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel Name="RandomizerSettings" Visibility="Visible" DockPanel.Dock="Top" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Label Foreground="White" Content="Name:" HorizontalAlignment="Left"/>
-                            <TextBox Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Label Foreground="White" Content="Name:" HorizontalAlignment="Left" />
+                            <TextBox Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <StackPanel Orientation="Horizontal" Margin="0 0 25 0">
-                                <Label Foreground="White" Content="Randomizer:"/>
-                                <CheckBox Checked="RandomChecked_Checked" Name="RandomChecked" VerticalAlignment="Center"/>
+                                <Label Foreground="White" Content="Randomizer:" />
+                                <CheckBox Checked="RandomChecked_Checked" Name="RandomChecked" VerticalAlignment="Center" />
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
-                                <Label Foreground="White" Content="Function:"/>
-                                <CheckBox Checked="FunctionChecked_Checked" Name="FunctionChecked" VerticalAlignment="Center"/>
+                                <Label Foreground="White" Content="Function:" />
+                                <CheckBox Checked="FunctionChecked_Checked" Name="FunctionChecked" VerticalAlignment="Center" />
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <Label Foreground="White" Content="Value:"/>
-                            <TextBox Name="ValueBox" Width="300px"/>
+                            <Label Foreground="White" Content="Value:" />
+                            <TextBox Name="ValueBox" Width="300px" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Name="AppSettings" Visibility="Collapsed" DockPanel.Dock="Top" Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <Label Foreground="White" Content="Font Size:" HorizontalAlignment="Left"/>
-                            <TextBox Width="50px" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default}, Path=FontSize, Mode=TwoWay}"/>
+                            <Label Foreground="White" Content="Font Size:" HorizontalAlignment="Left" />
+                            <TextBox Width="50px" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Source={x:Static properties:Settings.Default}, Path=FontSize, Mode=TwoWay}" />
                         </StackPanel>
                     </StackPanel>
-                    <TextBox Name="Output" Foreground="White" Background="Transparent" IsReadOnly="True" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=FontSize}"/>
+                    <TextBox Name="Output" Foreground="White" Background="Transparent" IsReadOnly="True" FontSize="{Binding Source={x:Static properties:Settings.Default}, Path=FontSize}" />
                 </DockPanel>
             </Border>
-            
         </Grid>
     </Grid>
 </Window>
