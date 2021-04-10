@@ -166,12 +166,12 @@ namespace HocusPocus
 
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
-			//Base.Load();
+			Base.Load();
 		}
 
 		private void MainWindow_Closed(object sender, EventArgs e)
 		{
-			//Base.Save();
+			Base.Save();
 		}
 
 		//Events

@@ -88,45 +88,11 @@ namespace HocusPocus.Objects
 
 			return item;
 		}
-		/*
-		private void NewItem(RandomizerItem internalitem)
-		{
-			var item = new RandomizerTreeItem
-			{
-				Item = internalitem,
-				Header = internalitem.ItemName
-			};
-
-			if (item.Item.UUID == Guid.Empty || !MyItems.Any(x => x.Item.UUID == item.Item.UUID))
-			{
-				MyItems.Add(item);
-			} else
-			{
-				if (MyItems.Any(x => x.Item.UUID == item.Item.UUID))
-				{
-					var testItem = MyItems.First(x => x.Item.UUID == item.Item.UUID);
-					testItem.Items.Add(item);
-				} else
-				{
-					//Crawl TODO
-				}
-			}
-		}
-
-		public void AddItems(List<RandomizerTreeItem> BaseItems, List<RandomizerItem> SerializableItems)
-		{
-			foreach (var item in BaseItems)
-			{
-				SerializableItems.Add(item.Item);
-				if (item.Items.Count > 0)
-					AddItems(item.Items.OfType<RandomizerTreeItem>().ToList(), SerializableItems);
-			}
-		}
 
 		public void Save()
 		{
 			var items = new List<RandomizerItem>();
-			AddItems(_Items.ToList(), items);
+			_ItemAccess.ForEach(x => items.Add(x.Item));
 			
 			var xml = new XmlSerializer(typeof(List<RandomizerItem>));
 			var stream = File.Open("Randomizer.dat", FileMode.Create, FileAccess.Write);
@@ -157,11 +123,29 @@ namespace HocusPocus.Objects
 
 				foreach (var item in items)
 				{
-					NewItem(item);
+					var it = NewItem();
+					it.Item = item;
+
+					if (item.ParentID != Guid.Empty)
+					{
+						// add back to child TODO
+						foreach (var itema in _ItemAccess)
+						{
+							if (itema.Item.ChildID == item.ParentID)
+							{
+								itema.Items.Add(it);
+								break;
+							}
+						}
+					}
+					else
+					{
+						MyItems.Add(it);
+					}
 				}
 			}
 		}
-		*/
+		
 		
 	}
 }
