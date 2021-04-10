@@ -14,6 +14,7 @@ namespace HocusPocus.Objects
 	public class Controller
 	{
 		private ObservableCollection<RandomizerTreeItem> _Items;
+		private List<RandomizerTreeItem> _ItemAccess;
 		private readonly StringBuilder builder;
 		private readonly Random RNG = new Random();
 
@@ -30,10 +31,24 @@ namespace HocusPocus.Objects
 			}
 		}
 
+		public List<RandomizerTreeItem> Items
+		{
+			get { return _ItemAccess; }
+
+			set
+			{
+				if (_ItemAccess != value)
+				{
+					_ItemAccess = value;
+				}
+			}
+		}
+
 		public Controller()
 		{
 			builder = new StringBuilder();
-			MyItems = new ObservableCollection<RandomizerTreeItem>();
+			_Items = new ObservableCollection<RandomizerTreeItem>();
+			_ItemAccess = new List<RandomizerTreeItem>();
 		}
 
 		public void NestedRoll(RandomizerTreeItem item)
@@ -66,12 +81,14 @@ namespace HocusPocus.Objects
 			return builder;
 		}
 
-		public void NewItem()
+		public RandomizerTreeItem NewItem()
 		{
 			var item = new RandomizerTreeItem();
-			MyItems.Add(item);
-		}
+			Items.Add(item);
 
+			return item;
+		}
+		/*
 		private void NewItem(RandomizerItem internalitem)
 		{
 			var item = new RandomizerTreeItem
@@ -144,6 +161,7 @@ namespace HocusPocus.Objects
 				}
 			}
 		}
+		*/
 		
 	}
 }

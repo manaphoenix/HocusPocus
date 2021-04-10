@@ -17,6 +17,7 @@
     <None Remove="data\image\MaximizeIcon.png" />
     <None Remove="data\image\MinimizeIcon.png" />
     <None Remove="data\image\RevertMaximizeIcon.png" />
+    <None Remove="HocusPocusIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,6 +29,7 @@
     <Resource Include="data\image\MaximizeIcon.png" />
     <Resource Include="data\image\MinimizeIcon.png" />
     <Resource Include="data\image\RevertMaximizeIcon.png" />
+    <Resource Include="HocusPocusIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>

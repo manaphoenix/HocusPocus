@@ -16,6 +16,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Background="#333333">
+            <Image HorizontalAlignment="Left" Height="30" Source="HocusPocusIcon.ico" Margin="80 0 0 0"/>
             <Label Height="32" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Content="Hocus Pocus"/>
             <StackPanel Background="Transparent" Height="32" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
                 <Button Background="Transparent" BorderBrush="#1AFFFFFF" Name="MinimizeButton" Width="32" Height="32" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White">

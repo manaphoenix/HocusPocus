@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Media;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace HocusPocus.Objects
 {
@@ -19,7 +13,8 @@ namespace HocusPocus.Objects
 		private string _OutputValue;
 		private bool _Nested;
 		private bool _Function;
-		private Guid _ID;
+		private Guid _ParentID;
+		private Guid _ChildID;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -79,15 +74,29 @@ namespace HocusPocus.Objects
 			}
 		}
 
-		public Guid UUID
+		public Guid ParentID
 		{
-			get { return _ID; }
+			get { return _ParentID; }
 
 			set
 			{
-				if (_ID != value)
+				if (_ParentID != value)
 				{
-					_ID = value;
+					_ParentID = value;
+					PropertyChange();
+				}
+			}
+		}
+
+		public Guid ChildID
+		{
+			get { return _ChildID; }
+
+			set
+			{
+				if (_ChildID != value)
+				{
+					_ChildID = value;
 					PropertyChange();
 				}
 			}
@@ -97,6 +106,8 @@ namespace HocusPocus.Objects
 		{
 			ItemName = "New Randomizer";
 			Nested = false;
+			Function = false;
+			ChildID = Guid.NewGuid();
 		}
 
 		public RandomizerItem(SerializationInfo info, StreamingContext context)
@@ -105,7 +116,8 @@ namespace HocusPocus.Objects
 			_OutputValue = (string)info.GetValue("OutputValue", typeof(string));
 			_Nested = (bool)info.GetValue("Nested", typeof(bool));
 			_Function = (bool)info.GetValue("Function", typeof(bool));
-			_ID = (Guid)info.GetValue("ID", typeof(Guid));
+			_ParentID = (Guid)info.GetValue("ParentID", typeof(Guid));
+			_ChildID = (Guid)info.GetValue("ChildID", typeof(Guid));
 		}
 
 		public void PropertyChange([CallerMemberName] string propertyName = "")
@@ -119,7 +131,8 @@ namespace HocusPocus.Objects
 			info.AddValue("OutputValue", _OutputValue);
 			info.AddValue("Nested", _Nested);
 			info.AddValue("Function", _Function);
-			info.AddValue("ID", _ID);
+			info.AddValue("ParentID", _ParentID);
+			info.AddValue("ChildID", _ChildID);
 		}
 	}
 }

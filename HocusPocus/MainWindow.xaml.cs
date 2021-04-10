@@ -3,13 +3,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls.Primitives;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using HocusPocus.Objects;
-using System.Diagnostics;
 
 namespace HocusPocus
 {
@@ -168,29 +166,28 @@ namespace HocusPocus
 
 		private void MainWindow_Loaded(object sender, RoutedEventArgs e)
 		{
-			Base.Load();
+			//Base.Load();
 		}
 
 		private void MainWindow_Closed(object sender, EventArgs e)
 		{
-			Base.Save();
+			//Base.Save();
 		}
 
 		//Events
 		private void AddButton_Clicked(object sender, RoutedEventArgs e)
 		{
-			if (MyTreeView.SelectedItem == null)
+			var newItem = Base.NewItem();
+
+			if (MyTreeView.SelectedItem != null)
 			{
-				Base.NewItem();
+				var parent = MyTreeView.SelectedItem as RandomizerTreeItem;
+				newItem.Item.ParentID = parent.Item.ChildID;
+
+				parent.Items.Add(newItem);
 			} else
 			{
-				var item = MyTreeView.SelectedItem as RandomizerTreeItem;
-				if (item.Item.UUID == Guid.Empty)
-					item.Item.UUID = Guid.NewGuid();
-
-				var newItem = new RandomizerTreeItem();
-				newItem.Item.UUID = item.Item.UUID;
-				item.Items.Add(newItem);
+				Base.MyItems.Add(newItem);
 			}
 		}
 
