@@ -54,12 +54,23 @@ namespace HocusPocus.Objects
 		public void NestedRoll(RandomizerTreeItem item)
 		{
 			var roll = RNG.Next(0, item.Items.Count);
+			if (item.Items.Count < 1) return;
 			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
-			builder.Append(result.Item.OutputValue + "\n");
 
 			if (result.Item.Nested)
 			{
+				builder.Append(result.Item.OutputValue + "\n");
 				NestedRoll(result);
+			}
+
+			if (result.Item.Function && MyItems.Any(x => x.Item.ItemName == result.Item.OutputValue))
+			{
+				var func = MyItems.First(x => x.Item.ItemName == result.Item.OutputValue);
+				NestedRoll(func);
+			} else
+			{
+				if (!result.Item.Nested)
+					builder.Append(result.Item.OutputValue + "\n");
 			}
 		}
 
@@ -71,11 +82,21 @@ namespace HocusPocus.Objects
 
 			var roll = RNG.Next(0, item.Items.Count);
 			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
-			builder.Append(result.Item.OutputValue + "\n");
 
 			if (result.Item.Nested)
 			{
+				builder.Append(result.Item.OutputValue + "\n");
 				NestedRoll(result);
+			}
+
+			if (result.Item.Function && MyItems.Any(x => x.Item.ItemName == result.Item.OutputValue))
+			{
+				var func = MyItems.First(x => x.Item.ItemName == result.Item.OutputValue);
+				NestedRoll(func);
+			} else
+			{
+				if (!result.Item.Nested)
+					builder.Append(result.Item.OutputValue + "\n");
 			}
 
 			return builder;
@@ -92,7 +113,10 @@ namespace HocusPocus.Objects
 		public void Save()
 		{
 			var items = new List<RandomizerItem>();
-			_ItemAccess.ForEach(x => items.Add(x.Item));
+			_ItemAccess.ForEach(x => {
+				if (Items.Any(y => y.Item.ChildID == x.Item.ParentID) || x.Item.ParentID == Guid.Empty)
+					items.Add(x.Item);
+			});
 			
 			var xml = new XmlSerializer(typeof(List<RandomizerItem>));
 			var stream = File.Open("Randomizer.dat", FileMode.Create, FileAccess.Write);
@@ -103,7 +127,6 @@ namespace HocusPocus.Objects
 			}
 
 			stream.Close();
-			
 		}
 
 		public void Load()
@@ -125,17 +148,25 @@ namespace HocusPocus.Objects
 				{
 					var it = NewItem();
 					it.Item = item;
+					it.Header = item.ItemName;
 
 					if (item.ParentID != Guid.Empty)
 					{
+						bool FoundParent = false;
 						// add back to child TODO
 						foreach (var itema in _ItemAccess)
 						{
 							if (itema.Item.ChildID == item.ParentID)
 							{
 								itema.Items.Add(it);
+								FoundParent = true;
 								break;
 							}
+						}
+
+						if (!FoundParent)
+						{
+							Items.Remove(it);
 						}
 					}
 					else

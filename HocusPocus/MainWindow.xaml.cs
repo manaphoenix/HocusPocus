@@ -253,6 +253,8 @@ namespace HocusPocus
 					parent.Items.Remove(item);
 				else
 					Base.MyItems.Remove(item);
+
+				Base.Items.Remove(item);
 			}
 		}
 
