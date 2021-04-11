@@ -215,6 +215,7 @@ namespace HocusPocus
 			BindingOperations.ClearBinding(TextName, TextBox.TextProperty);
 			BindingOperations.ClearBinding(ValueBox, TextBox.TextProperty);
 			BindingOperations.ClearBinding(RandomChecked, ToggleButton.IsCheckedProperty);
+			BindingOperations.ClearBinding(FunctionChecked, ToggleButton.IsCheckedProperty);
 
 			if (item == null) return;
 
