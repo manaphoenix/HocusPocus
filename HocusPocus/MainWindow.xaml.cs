@@ -262,6 +262,14 @@ namespace HocusPocus
 			{
 				item.Item.SelectedFunction = 0;
 			}
+
+			if (item.Parent is RandomizerTreeItem)
+			{
+				OptionsPanel.Visibility = Visibility.Visible;
+			} else
+			{
+				OptionsPanel.Visibility = Visibility.Collapsed;
+			}
 		}
 
 		private void DeleteButton_Clicked(object sender, RoutedEventArgs e)
