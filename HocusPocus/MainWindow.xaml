@@ -56,21 +56,21 @@
             </ToolBar>
             <TreeView MouseDown="MyTreeView_MouseDown" Background="Transparent" SelectedItemChanged="MyTreeView_SelectedItemChanged" ItemsSource="{Binding Path=MyItems, Mode=OneWay}" x:Name="MyTreeView" Grid.Column="0" Grid.Row="1" />
             <Border Grid.Column="1" Grid.Row="1" Background="Transparent" BorderBrush="White" BorderThickness="1">
-                <DockPanel Visibility ="Hidden" x:Name="OptionBox" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <DockPanel Visibility ="Visible" x:Name="OptionBox" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                     <StackPanel Name="RandomizerSettings" Visibility="Visible" DockPanel.Dock="Top" Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <Label Foreground="White" Content="Name:" HorizontalAlignment="Left" />
-                            <TextBox Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        <StackPanel Height="30" Orientation="Horizontal">
+                            <Label Foreground="White" Content="Name:"/>
+                            <TextBox Name="TextName" Width="300px"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="0 10 0 10" Height="30" Orientation="Horizontal">
+                            <Label Foreground="White" Content="Value:"/>
+                            <TextBox Name="ValueBox" Width="300px"/>
+                        </StackPanel>
+                        <StackPanel Height="30" Orientation="Horizontal">
                             <StackPanel Orientation="Horizontal">
                                 <Label Foreground="White" Content="Function:" />
-                                <CheckBox Name="FunctionChecked" VerticalAlignment="Center" />
+                                <ComboBox Name="FunctionCombo" SelectedIndex="0" Width="300px" ItemsSource="{Binding Path=FunctionOptions, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Foreground="White" Content="Value:" />
-                            <TextBox Name="ValueBox" Width="300px" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Name="AppSettings" Visibility="Collapsed" DockPanel.Dock="Top" Orientation="Vertical">

@@ -10,9 +10,9 @@ namespace HocusPocus.Objects
 	{
 		private string _Name;
 		private string _OutputValue;
-		private bool _Function;
 		private Guid _ParentID;
 		private Guid _ChildID;
+		private int _FuncIndex;
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -44,15 +44,15 @@ namespace HocusPocus.Objects
 			}
 		}
 
-		public bool Function
+		public int SelectedFunction
 		{
-			get { return _Function; }
+			get { return _FuncIndex; }
 
 			set
 			{
-				if (_Function != value)
+				if (_FuncIndex != value)
 				{
-					_Function = value;
+					_FuncIndex = value;
 					PropertyChange();
 				}
 			}
@@ -89,7 +89,6 @@ namespace HocusPocus.Objects
 		public RandomizerItem()
 		{
 			ItemName = "New Randomizer";
-			Function = false;
 			ChildID = Guid.NewGuid();
 		}
 
@@ -97,9 +96,9 @@ namespace HocusPocus.Objects
 		{
 			_Name = (string)info.GetValue("ItemName", typeof(string));
 			_OutputValue = (string)info.GetValue("OutputValue", typeof(string));
-			_Function = (bool)info.GetValue("Function", typeof(bool));
 			_ParentID = (Guid)info.GetValue("ParentID", typeof(Guid));
 			_ChildID = (Guid)info.GetValue("ChildID", typeof(Guid));
+			_FuncIndex = info.GetInt32("SelectedFunction");
 		}
 
 		public void PropertyChange([CallerMemberName] string propertyName = "")
@@ -111,9 +110,9 @@ namespace HocusPocus.Objects
 		{
 			info.AddValue("ItemName", _Name);
 			info.AddValue("OutputValue", _OutputValue);
-			info.AddValue("Function", _Function);
 			info.AddValue("ParentID", _ParentID);
 			info.AddValue("ChildID", _ChildID);
+			info.AddValue("SelectedFunction", _FuncIndex);
 		}
 	}
 }

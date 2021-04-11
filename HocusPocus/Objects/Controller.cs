@@ -4,16 +4,24 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 using System.Xml.Serialization;
+using System.Collections.Specialized;
+using System.Diagnostics;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace HocusPocus.Objects
 {
-	public class Controller
+	public class Controller : INotifyPropertyChanged
 	{
 		private ObservableCollection<RandomizerTreeItem> _Items;
 		private List<RandomizerTreeItem> _ItemAccess;
+		private List<ComboBoxItem> _Options;
 		private readonly StringBuilder builder;
 		private readonly Random RNG = new Random();
+
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public ObservableCollection<RandomizerTreeItem> MyItems
 		{
@@ -41,34 +49,115 @@ namespace HocusPocus.Objects
 			}
 		}
 
+		public List<ComboBoxItem> FunctionOptions
+		{
+			get { return _Options; }
+
+			set
+			{
+				if (_Options != value)
+				{
+					_Options = value;
+					PropertyChange();
+				}
+			}
+		}
+
 		public Controller()
 		{
 			builder = new StringBuilder();
 			_Items = new ObservableCollection<RandomizerTreeItem>();
 			_ItemAccess = new List<RandomizerTreeItem>();
+			_Options = new List<ComboBoxItem>();
+
+			MyItems.CollectionChanged += Items_CollectionChanged;
+
+			var zerothIndex = new ComboBoxItem()
+			{
+				Content = "None"
+			};
+
+			FunctionOptions.Add(zerothIndex);
 		}
 
-		public void NestedRoll(RandomizerTreeItem item)
+		public void UpdateCollection()
+		{
+			for (var i = 0; i < _Options.Count; i++)
+			{
+				string str = (string)_Options[i].Content;
+				if (str == "None") continue;
+
+				_Options[i].Content = MyItems[i - 1].Item.ItemName;
+			}
+		}
+
+		private void Items_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			var newItems = e.NewItems;
+			var oldItems = e.OldItems;
+
+			if (e.Action == NotifyCollectionChangedAction.Add)
+			{
+				foreach (RandomizerTreeItem item in newItems)
+				{
+					Debug.WriteLine(item.Item.ItemName);
+					var newIndex = new ComboBoxItem()
+					{
+						Content = item.Item.ItemName
+					};
+
+					FunctionOptions.Add(newIndex);
+				}
+				return;
+			}
+
+			if (e.Action == NotifyCollectionChangedAction.Remove)
+			{
+				foreach (RandomizerTreeItem item in oldItems)
+				{
+					var f = FunctionOptions.First(x => (string)x.Content == item.Item.ItemName);
+					FunctionOptions.Remove(f);
+				}
+				return;
+			}
+
+			if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
+			{
+				Debug.WriteLine("Unhandled: " + e.Action);
+			}
+		}
+
+		public RandomizerTreeItem FindTopMostParent(RandomizerTreeItem item)
+		{
+			var par = item;
+
+			while (par.Parent is RandomizerTreeItem it)
+			{
+				par = it;
+			}
+
+			return par;
+		}
+
+		public void RollLogic(RandomizerTreeItem item)
 		{
 			var roll = RNG.Next(0, item.Items.Count);
 			if (item.Items.Count < 1) return;
 			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
+			builder.Append(result.Item.OutputValue + "\n");
 
 			if (result.Items.Count > 0)
 			{
-				builder.Append(result.Item.OutputValue + "\n");
-				NestedRoll(result);
+				RollLogic(result);
 			}
 
-			if (result.Item.Function && MyItems.Any(x => x.Item.ItemName == result.Item.OutputValue))
+			if (result.Item.SelectedFunction > 0)
 			{
-				var func = MyItems.First(x => x.Item.ItemName == result.Item.OutputValue);
-				NestedRoll(func);
-			}
-			else
-			{
-				if (result.Items.Count <= 0)
-					builder.Append(result.Item.OutputValue + "\n");
+				var top = FindTopMostParent(result);
+				var func = MyItems[result.Item.SelectedFunction - 1];
+
+				if (top.Item.ItemName != func.Item.ItemName)
+				RollLogic(func);
 			}
 		}
 
@@ -78,25 +167,7 @@ namespace HocusPocus.Objects
 
 			if (item.Items.Count < 1) return builder;
 
-			var roll = RNG.Next(0, item.Items.Count);
-			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
-
-			if (result.Items.Count > 0)
-			{
-				builder.Append(result.Item.OutputValue + "\n");
-				NestedRoll(result);
-			}
-
-			if (result.Item.Function && MyItems.Any(x => x.Item.ItemName == result.Item.OutputValue))
-			{
-				var func = MyItems.First(x => x.Item.ItemName == result.Item.OutputValue);
-				NestedRoll(func);
-			}
-			else
-			{
-				if (result.Items.Count <= 0)
-					builder.Append(result.Item.OutputValue + "\n");
-			}
+			RollLogic(item);
 
 			return builder;
 		}
@@ -107,6 +178,11 @@ namespace HocusPocus.Objects
 			Items.Add(item);
 
 			return item;
+		}
+
+		public void PropertyChange([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 
 		public void Save()
@@ -153,7 +229,6 @@ namespace HocusPocus.Objects
 					if (item.ParentID != Guid.Empty)
 					{
 						bool FoundParent = false;
-						// add back to child TODO
 						foreach (var itema in _ItemAccess)
 						{
 							if (itema.Item.ChildID == item.ParentID)

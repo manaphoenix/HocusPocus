@@ -1,5 +1,6 @@
 ﻿using HocusPocus.Objects;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -214,7 +215,8 @@ namespace HocusPocus
 			var item = (RandomizerTreeItem)e.NewValue;
 			BindingOperations.ClearBinding(TextName, TextBox.TextProperty);
 			BindingOperations.ClearBinding(ValueBox, TextBox.TextProperty);
-			BindingOperations.ClearBinding(FunctionChecked, ToggleButton.IsCheckedProperty);
+			BindingOperations.ClearBinding(FunctionCombo, Selector.SelectedIndexProperty);
+			BindingOperations.ClearBinding(FunctionCombo, ItemsControl.ItemsSourceProperty);
 
 			if (item == null) return;
 
@@ -240,11 +242,26 @@ namespace HocusPocus
 			myBinding = new Binding()
 			{
 				Source = item.Item,
-				Path = new PropertyPath("Function"),
+				Path = new PropertyPath("SelectedFunction"),
 				Mode = BindingMode.TwoWay,
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 			};
-			BindingOperations.SetBinding(FunctionChecked, ToggleButton.IsCheckedProperty, myBinding);
+			BindingOperations.SetBinding(FunctionCombo, Selector.SelectedIndexProperty, myBinding);
+
+			myBinding = new Binding()
+			{
+				Source = Base,
+				Path = new PropertyPath("FunctionOptions"),
+				Mode = BindingMode.OneWay,
+				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+			};
+			BindingOperations.SetBinding(FunctionCombo, ItemsControl.ItemsSourceProperty, myBinding);
+
+			Base.UpdateCollection();
+			if (item.Item.SelectedFunction > FunctionCombo.Items.Count)
+			{
+				item.Item.SelectedFunction = 0;
+			}
 		}
 
 		private void DeleteButton_Clicked(object sender, RoutedEventArgs e)
@@ -252,9 +269,14 @@ namespace HocusPocus
 			if (MyTreeView.SelectedItem is RandomizerTreeItem item)
 			{
 				if (item.Parent is RandomizerTreeItem parent)
+				{
+					Debug.WriteLine("Removing!");
 					parent.Items.Remove(item);
+				}
 				else
+				{
 					Base.MyItems.Remove(item);
+				}
 
 				Base.Items.Remove(item);
 			}
