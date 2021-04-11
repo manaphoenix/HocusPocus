@@ -214,7 +214,6 @@ namespace HocusPocus
 			var item = (RandomizerTreeItem)e.NewValue;
 			BindingOperations.ClearBinding(TextName, TextBox.TextProperty);
 			BindingOperations.ClearBinding(ValueBox, TextBox.TextProperty);
-			BindingOperations.ClearBinding(RandomChecked, ToggleButton.IsCheckedProperty);
 			BindingOperations.ClearBinding(FunctionChecked, ToggleButton.IsCheckedProperty);
 
 			if (item == null) return;
@@ -237,15 +236,6 @@ namespace HocusPocus
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 			};
 			BindingOperations.SetBinding(ValueBox, TextBox.TextProperty, myBinding);
-
-			myBinding = new Binding()
-			{
-				Source = item.Item,
-				Path = new PropertyPath("Nested"),
-				Mode = BindingMode.TwoWay,
-				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
-			};
-			BindingOperations.SetBinding(RandomChecked, ToggleButton.IsCheckedProperty, myBinding);
 
 			myBinding = new Binding()
 			{
@@ -277,18 +267,6 @@ namespace HocusPocus
 				var result = Base.DoRoll(item);
 				Output.Text = result.ToString();
 			}
-		}
-
-		private void RandomChecked_Checked(object sender, RoutedEventArgs e)
-		{
-			if ((bool)RandomChecked.IsChecked)
-				FunctionChecked.IsChecked = false;
-		}
-
-		private void FunctionChecked_Checked(object sender, RoutedEventArgs e)
-		{
-			if ((bool)FunctionChecked.IsChecked)
-				RandomChecked.IsChecked = false;
 		}
 
 		//Settings button

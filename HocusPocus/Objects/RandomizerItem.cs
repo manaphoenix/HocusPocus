@@ -10,7 +10,6 @@ namespace HocusPocus.Objects
 	{
 		private string _Name;
 		private string _OutputValue;
-		private bool _Nested;
 		private bool _Function;
 		private Guid _ParentID;
 		private Guid _ChildID;
@@ -40,20 +39,6 @@ namespace HocusPocus.Objects
 				if (_OutputValue != value)
 				{
 					_OutputValue = value;
-					PropertyChange();
-				}
-			}
-		}
-
-		public bool Nested
-		{
-			get { return _Nested; }
-
-			set
-			{
-				if (_Nested != value)
-				{
-					_Nested = value;
 					PropertyChange();
 				}
 			}
@@ -104,7 +89,6 @@ namespace HocusPocus.Objects
 		public RandomizerItem()
 		{
 			ItemName = "New Randomizer";
-			Nested = false;
 			Function = false;
 			ChildID = Guid.NewGuid();
 		}
@@ -113,7 +97,6 @@ namespace HocusPocus.Objects
 		{
 			_Name = (string)info.GetValue("ItemName", typeof(string));
 			_OutputValue = (string)info.GetValue("OutputValue", typeof(string));
-			_Nested = (bool)info.GetValue("Nested", typeof(bool));
 			_Function = (bool)info.GetValue("Function", typeof(bool));
 			_ParentID = (Guid)info.GetValue("ParentID", typeof(Guid));
 			_ChildID = (Guid)info.GetValue("ChildID", typeof(Guid));
@@ -128,7 +111,6 @@ namespace HocusPocus.Objects
 		{
 			info.AddValue("ItemName", _Name);
 			info.AddValue("OutputValue", _OutputValue);
-			info.AddValue("Nested", _Nested);
 			info.AddValue("Function", _Function);
 			info.AddValue("ParentID", _ParentID);
 			info.AddValue("ChildID", _ChildID);

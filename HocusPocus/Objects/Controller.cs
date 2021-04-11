@@ -54,7 +54,7 @@ namespace HocusPocus.Objects
 			if (item.Items.Count < 1) return;
 			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
 
-			if (result.Item.Nested)
+			if (result.Items.Count > 0)
 			{
 				builder.Append(result.Item.OutputValue + "\n");
 				NestedRoll(result);
@@ -67,7 +67,7 @@ namespace HocusPocus.Objects
 			}
 			else
 			{
-				if (!result.Item.Nested)
+				if (result.Items.Count <= 0)
 					builder.Append(result.Item.OutputValue + "\n");
 			}
 		}
@@ -81,7 +81,7 @@ namespace HocusPocus.Objects
 			var roll = RNG.Next(0, item.Items.Count);
 			RandomizerTreeItem result = (RandomizerTreeItem)item.Items[roll];
 
-			if (result.Item.Nested)
+			if (result.Items.Count > 0)
 			{
 				builder.Append(result.Item.OutputValue + "\n");
 				NestedRoll(result);
@@ -94,7 +94,7 @@ namespace HocusPocus.Objects
 			}
 			else
 			{
-				if (!result.Item.Nested)
+				if (result.Items.Count <= 0)
 					builder.Append(result.Item.OutputValue + "\n");
 			}
 

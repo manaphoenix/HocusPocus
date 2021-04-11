@@ -63,13 +63,9 @@
                             <TextBox Name="TextName" Width="300px" HorizontalAlignment="Left" VerticalAlignment="Center" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Orientation="Horizontal" Margin="0 0 25 0">
-                                <Label Foreground="White" Content="Randomizer:" />
-                                <CheckBox Checked="RandomChecked_Checked" Name="RandomChecked" VerticalAlignment="Center" />
-                            </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Foreground="White" Content="Function:" />
-                                <CheckBox Checked="FunctionChecked_Checked" Name="FunctionChecked" VerticalAlignment="Center" />
+                                <CheckBox Name="FunctionChecked" VerticalAlignment="Center" />
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
